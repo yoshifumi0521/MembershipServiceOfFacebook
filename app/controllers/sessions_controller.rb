@@ -27,8 +27,8 @@ class SessionsController < ApplicationController
 
     #新規ユーザーではない場合
     if !@user.new_record?
-      #クッキーに、@userのidをいれる。
-      #cookies.
+      #クッキーに、@userのidをいれる。クッキーの期限を30日にする。
+      cookies.signed[:user_id] ={ value: @user.id ,expires: 30.days.from_now }
 
       #home画面にリダイレクトする。
       redirect_to :root
@@ -45,9 +45,9 @@ class SessionsController < ApplicationController
     
     #データが保存されたらする処理。
     if @user.save
-      #クッキーに、@userのidをいれる。
+      #クッキーに、@userのidをいれる。クッキーの期限を30日にする。
+      cookies.signed[:user_id] ={ value: @user.id ,expires: 30.days.from_now }
       
-
       #ホーム画面に戻る。
       redirect_to :root
       return 
@@ -57,11 +57,6 @@ class SessionsController < ApplicationController
       return
     end
       
-
-
-
-
-
 
   end
 
