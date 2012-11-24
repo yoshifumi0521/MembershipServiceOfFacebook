@@ -25,6 +25,37 @@ class SessionsController < ApplicationController
     #Userモデルのデータベースの中に、ユーザーのデータがあるかどうかを調べる。なかったら、新しいデータをつくる。
     @user = User.find_or_initialize_by_uid_and_name(@user_data["id"],@user_data["name"])
 
+    #新規ユーザーではない場合
+    if !@user.new_record?
+      #クッキーに、@userのidをいれる。
+      #cookies.
+
+      #home画面にリダイレクトする。
+      redirect_to :root
+      
+      #ここで処理をやめる。
+      return
+    end
+    
+    #新規ユーザー場合、ここで何らかの処理をおこなうのか？
+
+
+
+
+    
+    #データが保存されたらする処理。
+    if @user.save
+      #クッキーに、@userのidをいれる。
+      
+
+      #ホーム画面に戻る。
+      redirect_to :root
+      return 
+    elsif
+      #ホーム画面に戻る。
+      redirect_to :root
+      return
+    end
       
 
 
@@ -58,7 +89,6 @@ class SessionsController < ApplicationController
     
     elsif pattern == "callback"
 
-      
       #フォーマットを決める。
       @header_format = 'OAuth %s'
       return @client.auth_code.get_token(param, {:redirect_uri => @callback_url,

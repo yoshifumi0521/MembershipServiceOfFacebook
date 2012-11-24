@@ -4,6 +4,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :uid,null:false #FacebookのIDをいれる
       t.string :name,null: false #名前をいれる。
 
+
+
       t.timestamps
 
     end
