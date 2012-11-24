@@ -2,6 +2,9 @@
 #ログインやログアウトするコントローラー
 class SessionsController < ApplicationController
 
+  #applicationコントローラーのauthorizeメソッドは実行しないようにする。
+  skip_before_filter :authorize
+   
   #oauth認証をするアクション。ここで、Facebookにリダイレクトする。
   def get
 
@@ -38,8 +41,6 @@ class SessionsController < ApplicationController
     end
     
     #新規ユーザー場合、ここで何らかの処理をおこなうのか？
-
-
 
 
     
