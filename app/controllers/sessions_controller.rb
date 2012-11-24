@@ -22,6 +22,13 @@ class SessionsController < ApplicationController
     #ユーザーのデータを取得して、@user_data変数に格納する。
     @user_data = @access_token.get("/me/").parsed
 
+    #Userモデルのデータベースの中に、ユーザーのデータがあるかどうかを調べる。なかったら、新しいデータをつくる。
+    @user = User.find_or_initialize_by_uid_and_name(@user_data["id"],@user_data["name"])
+
+      
+
+
+
 
 
 
