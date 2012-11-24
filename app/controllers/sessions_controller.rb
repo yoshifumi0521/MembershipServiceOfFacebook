@@ -55,6 +55,15 @@ class SessionsController < ApplicationController
 
   end
 
+  #ログアウトするときのメソッド
+  def logout
+    
+    #クッキーを削除する。
+    cookies.delete :user_id
+    #ホームにリダイレクトする。
+    redirect_to :root
+
+  end
 
 
 
