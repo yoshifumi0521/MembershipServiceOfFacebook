@@ -8,7 +8,7 @@ MembershipServiceOfFacebook::Application.routes.draw do
 
   #sessionコントローラー。ログインするためのコントローラーである。
   get "sessions/get",as: "login"
-
+  get "sessions/callback"
 
 
 
