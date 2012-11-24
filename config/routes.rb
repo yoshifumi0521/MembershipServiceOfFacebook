@@ -1,5 +1,19 @@
+#conding: utf-8
+
+#ルーティングをするファイル
 MembershipServiceOfFacebook::Application.routes.draw do
+
+  #homeコントローラー。Home画面のコントローラーである。
   get "home/index"
+
+  #sessionコントローラー。ログインするためのコントローラーである。
+  get "sessions/get",as: "login"
+
+
+
+
+
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

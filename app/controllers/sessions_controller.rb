@@ -6,9 +6,7 @@ class SessionsController < ApplicationController
   def get
     
     #oauthクラスをつくるための変数
-    
-    
-    
+     
     
 
 
