@@ -23,18 +23,20 @@ class SessionsController < ApplicationController
     #ユーザーのデータを取得して、@user_data変数に格納する。
     @user_data = @access_token.get("/me/").parsed
     #Userモデルのデータベースの中に、ユーザーのデータがあるかどうかを調べる。なかったら、新しいデータをつくる。
-    @user = User.find_or_initialize_by_uid_and_name(@user_data["id"],@user_data["name"])
+    @user = User.find_or_initialize_by_uid(@user_data["id"])
 
     if @user.new_record?
       #新規ユーザーだった場合の処理。
       logger.debug("新規ユーザーの場合")
 
-      #ここでUserコントローラーのnewアクションをレンダリングする。
+      #ユーザーの名前をいれる。
+      @user.name = @user_data["name"]
+
+      #ユーザーのプロフィール写真のurlをいれる。
+      @user.imageurl = "http://graph.facebook.com/" + @user_data["id"] + "/picture"
+       
+      #ここでUserコントローラーのnewアクションにリダイレクトする。
       render "users/new"         
-
-
-
-
 
     elsif !@user.new_record?
       #新規ユーザーではない場合のの処理。

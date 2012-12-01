@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20121201093057) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "mailadress"
+    t.string   "imageurl"
   end
 
   add_index "users", ["uid", "name"], :name => "index_users_on_uid_and_name", :unique => true
