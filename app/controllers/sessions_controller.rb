@@ -25,34 +25,35 @@ class SessionsController < ApplicationController
     #Userモデルのデータベースの中に、ユーザーのデータがあるかどうかを調べる。なかったら、新しいデータをつくる。
     @user = User.find_or_initialize_by_uid_and_name(@user_data["id"],@user_data["name"])
 
-    #新規ユーザーではない場合
-    if !@user.new_record?
+    if @user.new_record?
+      #新規ユーザーだった場合の処理。
+      logger.debug("新規ユーザーの場合")
+
+      #ここでUserコントローラーのnewアクションをレンダリングする。
+      render "users/new"         
+
+
+
+
+
+    elsif !@user.new_record?
+      #新規ユーザーではない場合のの処理。
+      logger.debug("新規ユーザーの場合ではない。")
+
       #クッキーに、@userのidをいれる。クッキーの期限を30日にする。
       cookies.signed[:user_id] ={ value: @user.id ,expires: 30.days.from_now }
       #home画面にリダイレクトする。
       redirect_to :root
       #ここで処理をやめる。
       return
-    end
     
-    #新規ユーザー場合、ここで何らかの処理をおこなうのか？
+    end
+
+
+
 
 
     
-    #データが保存されたらする処理。
-    if @user.save
-      #クッキーに、@userのidをいれる。クッキーの期限を30日にする。
-      cookies.signed[:user_id] ={ value: @user.id ,expires: 30.days.from_now }
-      #ホーム画面に戻る。
-      redirect_to :root
-      return 
-    elsif
-      #ホーム画面に戻る。
-      redirect_to :root
-      return
-    end
-      
-
   end
 
   #ログアウトするときのメソッド

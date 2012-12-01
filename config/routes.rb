@@ -3,6 +3,7 @@
 #ルーティングをするファイル
 MembershipServiceOfFacebook::Application.routes.draw do
 
+
   #homeコントローラー。Home画面のコントローラーである。
   get "home/index"
 
@@ -11,9 +12,8 @@ MembershipServiceOfFacebook::Application.routes.draw do
   get "sessions/callback"
   get "sessions/logout",as: "logout"
 
-
-
-
+  #usersコントローラー。ユーザーのデータを扱うためのコントローラー
+  resources :users,only: [:new,:create]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
