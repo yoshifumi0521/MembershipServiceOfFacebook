@@ -25,6 +25,9 @@ class SessionsController < ApplicationController
     #Userモデルのデータベースの中に、ユーザーのデータがあるかどうかを調べる。なかったら、新しいデータをつくる。
     @user = User.find_or_initialize_by_uid(@user_data["id"])
 
+
+    logger.debug(@user_data)
+
     if @user.new_record?
       #新規ユーザーだった場合の処理。
       logger.debug("新規ユーザーの場合")
@@ -81,8 +84,9 @@ class SessionsController < ApplicationController
     @client = OAuth2::Client.new( @app_id ,@app_secret, @args) 
     @callback_url = url_for(:controller => "sessions",:action => "callback")
 
-    if pattern == "get"  
-      return @client.auth_code.authorize_url(:redirect_uri => @callback_url)
+    if pattern == "get" 
+      #メールアドレスを取得するために、スコープに"email"をいれる。
+      return @client.auth_code.authorize_url(:redirect_uri => @callback_url,:scope => "email")
     elsif pattern == "callback"
       #フォーマットを決める。
       @header_format = 'OAuth %s'
