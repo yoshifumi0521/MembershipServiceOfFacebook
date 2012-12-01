@@ -28,14 +28,13 @@ class SessionsController < ApplicationController
     if @user.new_record?
       #新規ユーザーだった場合の処理。
       logger.debug("新規ユーザーの場合")
-
       #ユーザーの名前をいれる。
       @user.name = @user_data["name"]
-
       #ユーザーのプロフィール写真のurlをいれる。
       @user.imageurl = "http://graph.facebook.com/" + @user_data["id"] + "/picture"
-       
-      #ここでUserコントローラーのnewアクションにリダイレクトする。
+      
+      #ここでUserコントローラーのnewアクションにリダイレクトする。ユーザーデータはまだ保存しない。
+      #けど、ここでレンダリングしていいのか、ちょっと怖いかも。
       render "users/new"         
 
     elsif !@user.new_record?

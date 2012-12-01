@@ -1,7 +1,28 @@
 
 <h1>新規ユーザー登録</h1>
 
-<p><%= @user.name %></p>
+
+<%= form_for @user do |form| %>
+  <table>
+    <tr>
+      <th>プロフィール画像</th>
+      <td><image src="<%= @user.imageurl %>"></td>
+    </tr>
+
+    <tr>
+      <th>名前</th>
+      <td><%= @user.name %></td>
+    </tr>
+
+    <tr>
+      <th><%= form.label :mailadress,"メールアドレス" %></th>
+      <td><%= form.text_field :mailadress %></td>
+    </tr>
+  </table>
+  
+  <p><%= form.submit  %></p>
+<% end %>
+
 
 
 
