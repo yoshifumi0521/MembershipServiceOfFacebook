@@ -20,10 +20,8 @@ class SessionsController < ApplicationController
     
     #アクセストークンのオブジェクトを取得。これをUserコントローラーのnewに渡したいかも。
     @access_token = GetObject("callback",params[:code]) 
-    
     #ユーザーのデータを取得して、@user_data変数に格納する。
     @user_data = @access_token.get("/me/").parsed
-    
     #Userモデルのデータベースの中に、ユーザーのデータがあるかどうかを調べる。なかったら、新しいデータをつくる。
     @user = User.find_or_initialize_by_uid(@user_data["id"])
 
@@ -37,20 +35,22 @@ class SessionsController < ApplicationController
       
       #一回ここで保存する。
       @user.save
-
       #ここでクッキーを保存する。
       cookies.signed[:user_id] ={ value: @user.id ,expires: 30.days.from_now }     
-
       #Userコントローラーのeditアクションをする。
       redirect_to "/users/"+ @user.id.to_s + "/edit"
 
+    else
+      
+      #ここでクッキーを保存する。
+      cookies.signed[:user_id] ={ value: @user.id ,expires: 30.days.from_now }     
+      #ホームに戻る。
+      redirect_to :root
 
     end
      
     
   end
-
-
 
 
   #ログアウトするときのメソッド
