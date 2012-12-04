@@ -11,9 +11,9 @@ MembershipServiceOfFacebook::Application.routes.draw do
   get "sessions/get",as: "login"
   get "sessions/callback"
   get "sessions/logout",as: "logout"
-
+  get "sessions/test"
   #usersコントローラー。ユーザーのデータを扱うためのコントローラー
-  resources :users,only: [:new,:create]
+  resources :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

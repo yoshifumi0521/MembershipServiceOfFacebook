@@ -18,40 +18,49 @@ class SessionsController < ApplicationController
   #Facebookからcallbackがきたらするアクション
   def callback
     
-    #アクセストークンのオブジェクトを取得
+    #アクセストークンのオブジェクトを取得。これをUserコントローラーのnewに渡したいかも。
     @access_token = GetObject("callback",params[:code]) 
+
+
+    
+
+
+
+
+
+
+    
     #ユーザーのデータを取得して、@user_data変数に格納する。
-    @user_data = @access_token.get("/me/").parsed
+    #@user_data = @access_token.get("/me/").parsed
     #Userモデルのデータベースの中に、ユーザーのデータがあるかどうかを調べる。なかったら、新しいデータをつくる。
-    @user = User.find_or_initialize_by_uid(@user_data["id"])
+    #@user = User.find_or_initialize_by_uid(@user_data["id"])
 
-
-    logger.debug(@user_data)
-
-    if @user.new_record?
+    #if @user.new_record?
       #新規ユーザーだった場合の処理。
-      logger.debug("新規ユーザーの場合")
+    #  logger.debug("新規ユーザーの場合")
       #ユーザーの名前をいれる。
-      @user.name = @user_data["name"]
+    #  @user.name = @user_data["name"]
       #ユーザーのプロフィール写真のurlをいれる。
-      @user.imageurl = "http://graph.facebook.com/" + @user_data["id"] + "/picture"
-      
+   #   @user.imageurl = "http://graph.facebook.com/" + @user_data["id"] + "/picture"
+      #ユーザーのメールアドレスをいれる。
+   #   @user.mailadress = @user_data["email"]
+
       #ここでUserコントローラーのnewアクションにリダイレクトする。ユーザーデータはまだ保存しない。
       #けど、ここでレンダリングしていいのか、ちょっと怖いかも。
-      render "users/new"         
+   #   redirect_to :controller => "users",:action => "index"
 
-    elsif !@user.new_record?
+   # elsif !@user.new_record?
       #新規ユーザーではない場合のの処理。
-      logger.debug("新規ユーザーの場合ではない。")
+   #   logger.debug("新規ユーザーの場合ではない。")
 
       #クッキーに、@userのidをいれる。クッキーの期限を30日にする。
-      cookies.signed[:user_id] ={ value: @user.id ,expires: 30.days.from_now }
+   #   cookies.signed[:user_id] ={ value: @user.id ,expires: 30.days.from_now }
       #home画面にリダイレクトする。
-      redirect_to :root
+   #   redirect_to :root
       #ここで処理をやめる。
-      return
+   #   return
     
-    end
+   # end
 
 
 
@@ -96,7 +105,6 @@ class SessionsController < ApplicationController
 
   end
  
-
 
 
 

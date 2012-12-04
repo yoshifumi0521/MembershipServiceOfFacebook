@@ -7,7 +7,9 @@ class User < ActiveRecord::Base
   #バリデーションをつける。
   #FacebookIdは同じものは存在しない
   validates :uid, uniqueness: true
-    
+  
+  #email情報は必須にする。
+  validates :mailadress,presence: true
 
 
 
