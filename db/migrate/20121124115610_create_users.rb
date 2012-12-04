@@ -3,7 +3,7 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.string :uid,null:false #FacebookのIDをいれる
       t.string :name,null: false #名前をいれる。
-
+      t.integer :step
 
 
       t.timestamps

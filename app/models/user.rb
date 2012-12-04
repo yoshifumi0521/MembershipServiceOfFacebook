@@ -2,7 +2,7 @@
 #Userのデータをしまう場所
 class User < ActiveRecord::Base
   
-  attr_accessible :name, :uid
+  attr_accessible :name, :uid,:mailadress,:paypalnumber
   
   #バリデーションをつける。
   #FacebookIdは同じものは存在しない

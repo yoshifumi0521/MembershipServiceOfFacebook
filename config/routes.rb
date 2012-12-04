@@ -5,15 +5,21 @@ MembershipServiceOfFacebook::Application.routes.draw do
 
 
   #homeコントローラー。Home画面のコントローラーである。
-  get "home/index"
+  get "home/index", as: "root"
+  root :to => "home#index"
+
 
   #sessionコントローラー。ログインするためのコントローラーである。
   get "sessions/get",as: "login"
   get "sessions/callback"
   get "sessions/logout",as: "logout"
-  get "sessions/test"
+  
   #usersコントローラー。ユーザーのデータを扱うためのコントローラー
   resources :users
+
+
+
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

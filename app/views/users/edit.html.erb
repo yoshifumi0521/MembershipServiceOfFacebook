@@ -1,2 +1,49 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+
+<h1>登録編集</h1>
+
+<p>メールアドレスの必須登録や、ペイパルの任意登録をする。</p>
+
+
+
+<table>
+  
+  <%= form_for @user do |form| %>
+    
+    <tr>
+      <th>プロフィール画像</th>
+      <td><image src="<%= @user.imageurl %>"></td>
+    </tr>
+
+    <tr>
+      <th>名前</th>
+      <td><%= @user.name %></td>
+    </tr>
+
+    <tr>
+      <th><%= form.label :mailadress,"メールアドレス" %></th>
+      <td><%= form.text_field :mailadress %></td>
+    </tr>
+
+    <tr>
+      <th><%= form.label :paypalnumber,"ペイパルナンバー" %></th>
+      <td><%= form.text_field :paypalnumber %></td>
+    </tr>
+
+    <tr>
+      <td><%= form.submit "編集" %></td>
+    </tr>
+
+
+  <% end %>
+</table>
+
+
+
+
+
+
+
+
+
+
+

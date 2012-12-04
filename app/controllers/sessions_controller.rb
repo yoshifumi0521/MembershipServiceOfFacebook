@@ -20,54 +20,38 @@ class SessionsController < ApplicationController
     
     #アクセストークンのオブジェクトを取得。これをUserコントローラーのnewに渡したいかも。
     @access_token = GetObject("callback",params[:code]) 
-
-
-    
-
-
-
-
-
-
     
     #ユーザーのデータを取得して、@user_data変数に格納する。
-    #@user_data = @access_token.get("/me/").parsed
-    #Userモデルのデータベースの中に、ユーザーのデータがあるかどうかを調べる。なかったら、新しいデータをつくる。
-    #@user = User.find_or_initialize_by_uid(@user_data["id"])
-
-    #if @user.new_record?
-      #新規ユーザーだった場合の処理。
-    #  logger.debug("新規ユーザーの場合")
-      #ユーザーの名前をいれる。
-    #  @user.name = @user_data["name"]
-      #ユーザーのプロフィール写真のurlをいれる。
-   #   @user.imageurl = "http://graph.facebook.com/" + @user_data["id"] + "/picture"
-      #ユーザーのメールアドレスをいれる。
-   #   @user.mailadress = @user_data["email"]
-
-      #ここでUserコントローラーのnewアクションにリダイレクトする。ユーザーデータはまだ保存しない。
-      #けど、ここでレンダリングしていいのか、ちょっと怖いかも。
-   #   redirect_to :controller => "users",:action => "index"
-
-   # elsif !@user.new_record?
-      #新規ユーザーではない場合のの処理。
-   #   logger.debug("新規ユーザーの場合ではない。")
-
-      #クッキーに、@userのidをいれる。クッキーの期限を30日にする。
-   #   cookies.signed[:user_id] ={ value: @user.id ,expires: 30.days.from_now }
-      #home画面にリダイレクトする。
-   #   redirect_to :root
-      #ここで処理をやめる。
-   #   return
+    @user_data = @access_token.get("/me/").parsed
     
-   # end
+    #Userモデルのデータベースの中に、ユーザーのデータがあるかどうかを調べる。なかったら、新しいデータをつくる。
+    @user = User.find_or_initialize_by_uid(@user_data["id"])
+
+    #新規ユーザーが、登録編集画面でしっかり登録してない場合ここを通る。
+    if @user.step == nil
+
+      #データを保存する。
+      @user.name = @user_data["name"]
+      @user.mailadress = @user_data["email"]
+      @user.imageurl = "http://graph.facebook.com/" + @user_data["id"] +"/picture"
+      
+      #一回ここで保存する。
+      @user.save
+
+      #ここでクッキーを保存する。
+      cookies.signed[:user_id] ={ value: @user.id ,expires: 30.days.from_now }     
+
+      #Userコントローラーのeditアクションをする。
+      redirect_to "/users/"+ @user.id.to_s + "/edit"
 
 
-
-
-
+    end
+     
     
   end
+
+
+
 
   #ログアウトするときのメソッド
   def logout
